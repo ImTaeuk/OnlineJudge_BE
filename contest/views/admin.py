@@ -107,7 +107,7 @@ class ContestStudentIdAPI(APIView):
             except User.DoesNotExist:
                 continue
             user.contest_id_list.append(contest.id)
-            user.contest_id_list = list(np.unique(user.contest_id))
+            user.contest_id_list = list(np.unique(user.contest_id_list))
             # if User.objects.get(username=v["student_id_list"]):
             #     user = User.objects.get(username=v["student_id_list"])
             #     user.contest_id_list.append(contest.id)
