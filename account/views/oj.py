@@ -35,7 +35,7 @@ class UserClassAPI(APIView):
         user = User.objects.get(username=request.GET.get("username"), is_disabled=False)
         contest_name_list = []
         for v in user.contest_id_list:
-            contest_name = Contest.objects.get(id=request.GET.get("id")).title
+            contest_name = Contest.objects.get(id=v).title
             contest_name_list.append(contest_name)
 
         return self.success(user.contest_id_list)
