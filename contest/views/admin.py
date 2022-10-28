@@ -22,6 +22,7 @@ from ..serializers import (ContestAnnouncementSerializer, ContestAdminSerializer
                            ACMContesHelperSerializer, )
 
 import string
+import numpy as np
 
 
 
@@ -106,7 +107,7 @@ class ContestStudentIdAPI(APIView):
             except User.DoesNotExist:
                 continue
             user.contest_id_list.append(contest.id)
-            user.contest_id_list = list(set(user.contest_id_list))
+            user.contest_id_list = list(np.unique(user.contest_id))
             # if User.objects.get(username=v["student_id_list"]):
             #     user = User.objects.get(username=v["student_id_list"])
             #     user.contest_id_list.append(contest.id)
