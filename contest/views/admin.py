@@ -101,9 +101,15 @@ class ContestStudentIdAPI(APIView):
         contest.save()
 
         for v in contest.student_id:
-            if User.objects.get(username=v["student_id_list"]):
+            try:
                 user = User.objects.get(username=v["student_id_list"])
-                user.contest_id_list.append(contest.id)
+            except User.DoesNotExist:
+                continue
+            user.contest_id_list.append(contest.id)
+            user.contest_id_list = list(set(user.contest_id_list))
+            # if User.objects.get(username=v["student_id_list"]):
+            #     user = User.objects.get(username=v["student_id_list"])
+            #     user.contest_id_list.append(contest.id)
                 
 
         return self.success(ContestAdminSerializer(contest).data)

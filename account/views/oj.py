@@ -26,13 +26,25 @@ from ..serializers import (ApplyResetPasswordSerializer, ResetPasswordSerializer
 from ..serializers import (TwoFactorAuthCodeSerializer, UserProfileSerializer,
                            EditUserProfileSerializer, ImageUploadForm)
 from ..tasks import send_email_async
+from contest.models import Contest
 
 ##
 class UserClassAPI(APIView):
     # @Return User's participating class's id list
     def get(self, request):
         user = User.objects.get(username=request.GET.get("username"), is_disabled=False)
-        return self.success(user.contest_id_list)
+        contest_name_list = []
+        for v in user.contest_id_list:
+            contest_name = Contest.objects.get(id=request.GET.get("id")).title
+            contest_name_list.append(contest_name)
+
+        
+        return self.success(
+            {
+                "contest_id_list" : user.contest_id_list,
+                "contest_name" : contest_name_list,
+            }
+            )
 ##            
 
 class UserClassesAPI(APIView):
