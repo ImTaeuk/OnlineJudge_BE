@@ -46,7 +46,7 @@ class UserClassAPI(APIView):
             result_list.append(
                 {
                     "contest_id_list" : v,
-                    "contest_name" : Contest.object.get(id=v).title
+                    "contest_name" : Contest.objects.get(id=v).title
                 }
             )
         
