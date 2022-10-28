@@ -29,6 +29,7 @@ from ..tasks import send_email_async
 from contest.models import Contest
 
 import numpy as np
+import string
 
 ##
 class UserClassAPI(APIView):
@@ -45,8 +46,8 @@ class UserClassAPI(APIView):
         for v in user.contest_id_list:
             result_list.append(
                 {
-                    "contest_id_list" : v,
-                    "contest_name" : Contest.objects.get(id=v).title
+                    "contest_id_list" : int(v),
+                    "contest_name" : string(Contest.objects.get(id=v).title),
                 }
             )
         
