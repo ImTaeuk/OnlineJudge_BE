@@ -38,13 +38,13 @@ class UserClassAPI(APIView):
             contest_name = Contest.objects.get(id=request.GET.get("id")).title
             contest_name_list.append(contest_name)
 
-        
-        return self.success(
-            {
-                "contest_id_list" : user.contest_id_list,
-                "contest_name" : contest_name_list,
-            }
-            )
+        return self.success(user.contest_id_list)
+        # return self.success(
+        #     {
+        #         "contest_id_list" : user.contest_id_list,
+        #         "contest_name" : contest_name_list,
+        #     }
+        #     )
 ##            
 
 class UserClassesAPI(APIView):
