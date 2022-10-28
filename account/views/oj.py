@@ -35,21 +35,23 @@ class UserClassAPI(APIView):
     # @Return User's participating class's id list
     def get(self, request):
         user = User.objects.get(username=request.GET.get("username"), is_disabled=False)
+
+        result_list = []
+
         contest_name_list = []
 
         user.contest_id_list = list(np.unique(user.contest_id_list))
         
         for v in user.contest_id_list:
-            contest_name = Contest.objects.get(id=v).title
-            contest_name_list.append(contest_name)
+            result_list.append(
+                {
+                    "contest_id_list" : v,
+                    "contest_name" : Contest.object.get(id=v).title
+                }
+            )
         
         #return self.success(user.contest_id_list)
-        return self.success(
-            {
-                "contest_id_list" : user.contest_id_list,
-                "contest_name" : contest_name_list,
-            }
-        )
+        return self.success(result_list)
 ##            
 
 class UserClassesAPI(APIView):
