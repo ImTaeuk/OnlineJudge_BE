@@ -76,6 +76,7 @@ class ProblemTagListAPITest(APITestCase):
 
 class TestCaseUploadAPITest(APITestCase):
     def setUp(self):
+        print("TestAPI 79 line")
         self.api = TestCaseAPI()
         self.url = self.reverse("test_case_api")
         self.create_super_admin()

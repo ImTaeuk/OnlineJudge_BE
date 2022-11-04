@@ -216,7 +216,7 @@ class ReleaseNotesAPI(APIView):
             releases = resp.json()
         except (RequestException, ValueError):
             return self.success()
-        with open("docs/data.json", "r") as f:
+        with open("docs/data.json", "r", encoding='UTF-8') as f:
             local_version = json.load(f)["update"][0]["version"]
         releases["local_version"] = local_version
         return self.success(releases)

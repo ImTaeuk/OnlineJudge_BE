@@ -31,7 +31,7 @@ class Contest(models.Model):
     visible = models.BooleanField(default=True)
     allowed_ip_ranges = JSONField(default=list)
 
-    student_id = JSONField(default=list)
+    student_id = JSONField(default=list, null=True)
 
     @property
     def status(self):

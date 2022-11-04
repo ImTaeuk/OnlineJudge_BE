@@ -14,7 +14,7 @@ class CreateConetestSeriaizer(serializers.Serializer):
     visible = serializers.BooleanField()
     real_time_rank = serializers.BooleanField()
     allowed_ip_ranges = serializers.ListField(child=serializers.CharField(max_length=32), allow_empty=True)
-    student_id = serializers.JSONField()
+    # student_id = serializers.JSONField()
 
 
 class EditConetestSeriaizer(serializers.Serializer):

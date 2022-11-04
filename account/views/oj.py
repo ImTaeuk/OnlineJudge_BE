@@ -31,6 +31,8 @@ from contest.models import Contest
 import numpy as np
 import string
 
+from utils.models import JSONField
+
 ##
 class UserClassAPI(APIView):
     # @Return User's participating class's id list
@@ -38,16 +40,12 @@ class UserClassAPI(APIView):
         user = User.objects.get(username=request.GET.get("username"), is_disabled=False)
 
         result_list = []
-
-        contest_name_list = []
-
-        user.contest_id_list = list(np.unique(user.contest_id_list))
         
         for v in user.contest_id_list:
             result_list.append(
                 {
-                    "contest_id_list" : int(v),
-                    "contest_name" : Contest.objects.get(id=v).title
+                    "contest_id_list" : v["id"],
+                    "contest_name" : Contest.objects.get(id=v["id"]).title
                 }
             )
         

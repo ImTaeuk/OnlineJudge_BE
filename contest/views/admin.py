@@ -6,6 +6,8 @@ from ipaddress import ip_network
 
 import dateutil.parser
 from django.http import FileResponse
+from pandas import array
+from account import models
 
 from account.decorators import check_contest_permission, ensure_created_by
 from account.models import User
@@ -24,7 +26,8 @@ from ..serializers import (ContestAnnouncementSerializer, ContestAdminSerializer
 import string
 import numpy as np
 
-
+from django.contrib.postgres.fields import ArrayField
+import json
 
 class ContestAPI(APIView):
     @validate_serializer(CreateConetestSeriaizer)
@@ -95,25 +98,25 @@ class ContestAPI(APIView):
 class ContestStudentIdAPI(APIView):
     def post(self, request):
         data = request.data
-        contest = Contest.objects.get(id=data.pop("contest_id"))
+        contest_id = data.pop("contest_id")
+        contest = Contest.objects.get(id=contest_id)
         student_id_list = data["student_id"]
         contest.student_id = student_id_list
         setattr(contest, "student_id", student_id_list)
         contest.save()
-
+        
         for v in contest.student_id:
             try:
                 user = User.objects.get(username=v["student_id_list"])
             except User.DoesNotExist:
                 continue
-            user.contest_id_list.append(contest.id)
-            user.contest_id_list = list(np.unique(user.contest_id_list))
-            # if User.objects.get(username=v["student_id_list"]):
-            #     user = User.objects.get(username=v["student_id_list"])
-            #     user.contest_id_list.append(contest.id)
-                
-
+            # user.contest_id_list.append(contest_id)
+            print(user.username)
+            user.contest_id_list = [ { "id" : "2" } ]
+            print(json.dumps)
+            user.save()
         return self.success(ContestAdminSerializer(contest).data)
+
     def get(self, request):
         contest_id = request.GET.get("contest_id")
         contest = Contest.objects.get(id=contest_id)

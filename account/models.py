@@ -2,7 +2,8 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.conf import settings
 from django.db import models
 from utils.models import JSONField
-
+from django.contrib.postgres.fields import ArrayField
+from utils.models import JSONField
 
 class AdminType(object):
     REGULAR_USER = "Regular User"
@@ -46,8 +47,8 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
-
-    contest_id_list = []
+    
+    contest_id_list = models.JSONField(default=list, null=True)
 
     def is_admin(self):
         return self.admin_type == AdminType.ADMIN

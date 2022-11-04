@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='contest',
             name='student_id',
-            field=models.JSONField(default=list),
+            field=models.JSONField(default=list, null=True),
         ),
         migrations.AlterField(
             model_name='acmcontestrank',
