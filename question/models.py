@@ -13,7 +13,7 @@ from utils.models import RichTextField
 class Question(models.Model):
     id = models.TextField(db_index=True, primary_key=True)
     title = models.TextField(default="None")
-    created_by = models.IntegerField(null=False)
+    created_by = models.TextField(unique=True)
     problem_id = models.IntegerField(null=False)
     contest_id = models.IntegerField(null=True)
     content = RichTextField(null=True)

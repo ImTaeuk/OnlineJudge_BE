@@ -4,7 +4,7 @@ from utils.serializers import LanguageNameChoiceField
 from utils.api._serializers import UsernameSerializer
 
 class CreateQuestionSerializer(serializers.Serializer):
-    created_by = serializers.IntegerField(null=False)
+    created_by = username = serializers.CharField()
     title = serializers.CharField(max_length=256)
     problem = serializers.IntegerField()
     contest_id = serializers.IntegerField(null=True)

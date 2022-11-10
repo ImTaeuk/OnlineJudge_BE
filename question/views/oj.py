@@ -12,7 +12,7 @@ class QuestionAPI(APIView):
         _created_by = User.objects.get(user_name=request.username)
 
         question = Question.objects.create(
-            created_by = data["user_id"],
+            created_by = data["username"],
             title = data["title"],
             problem_id = data["problem_id"],
             contest_id = data["contest_id"],
