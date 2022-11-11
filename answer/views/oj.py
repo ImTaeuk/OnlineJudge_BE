@@ -10,7 +10,7 @@ class AnswerAPI(APIView):
     def post(self, request):
         data = request.data
 
-        _created_by = User.objects.get(user_name=request.username)
+        _created_by = User.objects.get(user_name=request.username).id
 
         answer = answer.objects.create(
             created_by = _created_by,

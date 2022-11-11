@@ -1,6 +1,7 @@
 from utils.api import APIView, validate_serializer
 from account.decorators import login_required
-from ..models import Contest, User, Problem, Submission, Question, Answer
+from ..models import Question
+from account.models import User
 from ..serializers import CreateQuestionSerializer
 
 class QuestionAPI(APIView):
