@@ -1,19 +1,19 @@
 from utils.api import APIView, validate_serializer
 from account.decorators import login_required
 from ..models import Question
-from account.models import User
 from ..serializers import CreateQuestionSerializer
+from account.models import User
 
 class QuestionAPI(APIView):
-    @validate_serializer(CreateQuestionSerializer)
+    # @validate_serializer(CreateQuestionSerializer)
     @login_required
     def post(self, request):
         data = request.data
-
-        _created_by = User.objects.get(user_name=request.username)
-
+        data["created_by"] = User.objects.get(username=data["username"])
+        data["problem"] = data["problem_id"]
+        createdUser = User.objects.get(username=data["username"])
         question = Question.objects.create(
-            created_by = data["username"],
+            created_by = createdUser,
             title = data["title"],
             problem_id = data["problem_id"],
             contest_id = data["contest_id"],

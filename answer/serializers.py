@@ -1,8 +1,9 @@
 from .models import Submission
 from utils.api import serializers
+from utils.api._serializers import UsernameSerializer
 
 class CreateAnswerSerializer(serializers.Serializer):
-    created_by = serializers.IntegerField(null=False)
+    created_by = UsernameSerializer()
     content = serializers.CharField(allow_blank=True, allow_null=True)
-    submission_id = serializers.IntegerField(null=False)
-    question_id = serializers.IntegerField(null=False)
+    submission_id = serializers.IntegerField(null=True)
+    question_id = serializers.IntegerField(null=True)

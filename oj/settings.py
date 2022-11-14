@@ -51,8 +51,8 @@ LOCAL_APPS = [
     'submission',
     'options',
     'judge',
-    'answer',
     'question',
+    'answer',
 ]
 
 INSTALLED_APPS = VENDOR_APPS + LOCAL_APPS

@@ -7,17 +7,17 @@ from pandas import array
 from django.db import models
 from django.utils.timezone import now
 from utils.models import JSONField
+from account.models import User
 
 from utils.models import RichTextField
 
 class Question(models.Model):
-    id = models.TextField(db_index=True, primary_key=True)
-    title = models.TextField(default="None", null=True)
-    created_by = models.TextField(null=True)
-    problem_id = models.IntegerField(null=True)
-    contest_id = models.IntegerField(null=True)
-    content = RichTextField(null=True)
+    title = models.TextField(default="None")
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    problem_id = models.IntegerField()
+    contest_id = models.IntegerField()
+    content = RichTextField()
     create_time = models.DateTimeField(auto_now_add=True)
-    submission_id = models.IntegerField(null=True)
-    answer_registered = models.BooleanField(default=False)
+    submission_id = models.IntegerField()
+    answer_registered = models.BooleanField(default=True)
     answer_id = models.IntegerField(null=True)

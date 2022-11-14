@@ -13,9 +13,6 @@ urlpatterns = [
     url(r"^api/admin/", include("contest.urls.admin")),
     url(r"^api/", include("submission.urls.oj")),
     url(r"^api/admin/", include("submission.urls.admin")),
-    url(r"^api/admin/", include("question.urls.admin")),
-    url(r"^api/", include("question.urls.oj")),
-    url(r"^api/admin/", include("answer.urls.admin")),
-    url(r"^api/", include("answer.urls.oj")),
     url(r"^api/admin/", include("utils.urls")),
+    url(r"^api/", include("question.urls.oj")),
 ]
