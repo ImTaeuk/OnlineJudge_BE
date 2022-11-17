@@ -105,14 +105,28 @@ class ContestStudentIdAPI(APIView):
         setattr(contest, "student_id", student_id_list)
         contest.save()
         
+        # for v in contest.student_id:
+        #     try:
+        #         user = User.objects.get(username=v["student_id_list"])
+        #     except User.DoesNotExist:
+        #         continue
+        #     # user.contest_id_list.append(contest_id)
+        #     print(user.username)
+        #     user.contest_id_list = [ { "id" : z } ]
+        #     print(json.dumps)
+        #     user.save()
         for v in contest.student_id:
             try:
                 user = User.objects.get(username=v["student_id_list"])
             except User.DoesNotExist:
                 continue
             # user.contest_id_list.append(contest_id)
+            id_list = []
+            for v_ in user.contest_id_list:
+                id_list.append({"id" : v_})
+            id_list.append({"id" : contest_id})
             print(user.username)
-            user.contest_id_list = [ { "id" : "2" } ]
+            user.contest_id_list = id_list
             print(json.dumps)
             user.save()
         return self.success(ContestAdminSerializer(contest).data)
