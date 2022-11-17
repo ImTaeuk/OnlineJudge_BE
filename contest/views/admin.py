@@ -121,13 +121,14 @@ class ContestStudentIdAPI(APIView):
             except User.DoesNotExist:
                 continue
             # user.contest_id_list.append(contest_id)
-            id_list = []
-            for v_ in user.contest_id_list:
-                id_list.append({"id" : v_})
-            id_list.append({"id" : contest_id})
-            print(user.username)
-            user.contest_id_list = id_list
-            print(json.dumps)
+            # id_list = []
+            # for v_ in user.contest_id_list:
+            #     id_list.append({"id" : v_})
+            # id_list.append({"id" : contest_id})
+            # print(user.username)
+            # user.contest_id_list = id_list
+            # print(json.dumps)
+            user.contest_id_list.append({"id" : contest_id})
             user.save()
         return self.success(ContestAdminSerializer(contest).data)
 

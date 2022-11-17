@@ -24,19 +24,4 @@ class SubmissionRejudgeAPI(APIView):
         judge_task.send(submission.id, submission.problem.id)
         return self.success()
 
-class SubmissionVisualDataResultAPI(APIView):
-    def get(self, request):
-        ## Get Code
-        submission_id = request.GET.get("submission_id")
-        submission = Submission.objects.get(id=submission_id)
-        code = submission.code
 
-        ##Get input Case
-        problem_id = request.GET.get("problem_id")
-        problem = Problem.objects.get(id=problem_id)
-        inputDescription = problem.input_description
-
-        ## 추후에 윤석이랑 연결되면 URL 넣어서 사용 예정
-        response = requests.get("넣을 URL", data = {"code" : code, "input_description" : inputDescription})
-
-        return self.success(response)

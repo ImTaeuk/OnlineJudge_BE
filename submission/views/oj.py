@@ -201,3 +201,22 @@ class SubmissionExistsAPI(APIView):
         return self.success(request.user.is_authenticated and
                             Submission.objects.filter(problem_id=request.GET["problem_id"],
                                                       user_id=request.user.id).exists())
+
+class SubmissionVisualDataResultAPI(APIView):
+    def get(self, request):
+        ## Get Code
+        submission_id = request.GET.get("submission_id")
+        submission = Submission.objects.get(id=submission_id)
+        code = submission.code
+
+        ##Get input Case
+        problem_id = request.GET.get("problem_id")
+        problem = Problem.objects.get(id=problem_id)
+        inputDescription = problem.input_description
+
+        code.replace('+', '%2B')
+
+        ## 추후에 윤석이랑 연결되면 URL 넣어서 사용 예정
+        response = requests.get("넣을 URL", data = {"code" : code, "input_description" : inputDescription, "submission_id" : submission_id})
+
+        return self.success(response)
