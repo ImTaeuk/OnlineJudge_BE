@@ -37,7 +37,11 @@ from utils.models import JSONField
 class UserClassAPI(APIView):
     # @Return User's participating class's id list
     def get(self, request):
-        user = User.objects.get(username=request.GET.get("username"), is_disabled=False)
+        username_ = request.GET.get("username")
+        try:
+            user = User.objects.get(username=username_, is_disabled=False)
+        except User.DoesNotExist:
+            return self.error(request.GET.get("username") + "is not exist user")
 
         result_list = []
         
