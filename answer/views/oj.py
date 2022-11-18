@@ -16,10 +16,10 @@ class AnswerAPI(APIView):
                 answer = Answer.objects.get(question_id=data["question_id"])
                 answer.content = data["content"]
                 answer.save()
-                return self.success(answer)
+                return self.success({"answer_question_id" : answer.question_id})
             
 
-        _created_by = User.objects.get(user_name=request.username)
+        _created_by = User.objects.get(username=data["username"])
 
         answer = Answer.objects.create(
             created_by = _created_by,
@@ -34,14 +34,14 @@ class AnswerAPI(APIView):
         question.answer_id = answer.id
         question.save()
 
-        return self.success(answer)
+        return self.success({"answer_question_id" : answer.question_id})
 
     def get(self, request):
+        data = request.data
+        
         try:
-             answer = Answer.objects.get(question_id=request.GET.get("question_id"))
+             answer = Answer.objects.get(id=request.GET.get("id"))
         except Answer.DoesNotExist:
-            return self.error("Invalid Answer ID")
-            
-        result = {"answer_id" : answer.id, "content" : answer.content, "create_time" : answer.create_time, "submission_id" : answer.submission_id, "question_id" : answer.question_id}
-
-        return self.success(result)
+            return self.error("등록된 답변이 없습니다.")
+        
+        return self.success({"answer_id" : answer.id, "content" : answer.content, "submission_id" : answer.submission_id, "question_id" : answer.question_id})
