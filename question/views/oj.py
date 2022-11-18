@@ -30,7 +30,10 @@ class QuestionAPI(APIView):
              question = Question.objects.get(id=request.GET.get("id"))
         except Question.DoesNotExist:
             return self.error("Invalid Question ID")
-        return self.success(question)
+
+        result = {"id" : question.id, "class_id" : question.contest_id, "problem_id" : question.problem_id, "submission_id" : question.submission_id, "answer_id" : question.answer_id, "title" : question.title, "content" : question.content}
+        
+        return self.success(result)
 
 class GetQuestionList(APIView):
     def get(self, request):
