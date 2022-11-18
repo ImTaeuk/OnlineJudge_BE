@@ -6,7 +6,7 @@ from account.models import User
 
 class QuestionAPI(APIView):
     # @validate_serializer(CreateQuestionSerializer)
-    @login_required
+    # @login_required
     def post(self, request):
         data = request.data
         data["created_by"] = User.objects.get(username=data["username"])

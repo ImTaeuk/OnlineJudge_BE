@@ -50,4 +50,4 @@ typing_extensions==4.3.0
 urllib3==1.26.7
 XlsxWriter==3.0.2
 zipp==3.9.0
-asyncio==3.4.3
+trollius==2.1.post2

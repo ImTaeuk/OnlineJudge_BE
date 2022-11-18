@@ -6,7 +6,7 @@ from question.models import Question
 
 class AnswerAPI(APIView):
     # @validate_serializer(CreateAnswerSerializer)
-    @login_required
+    # @login_required
     def post(self, request):
         data = request.data
 
