@@ -41,4 +41,7 @@ class AnswerAPI(APIView):
              answer = Answer.objects.get(question_id=request.GET.get("question_id"))
         except Answer.DoesNotExist:
             return self.error("Invalid Answer ID")
-        return self.success(answer)
+            
+        result = {"answer_id" : answer.id, "content" : answer.content, "create_time" : answer.create_time, "submission_id" : answer.submission_id, "question_id" : answer.question_id}
+
+        return self.success(result)
