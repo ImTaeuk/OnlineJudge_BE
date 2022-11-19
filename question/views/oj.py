@@ -40,17 +40,22 @@ class GetQuestionList(APIView):
         question_list = []
         questions = Question.objects.all()
         for v in questions:
-            if v["answer_registered"] == False:
+            if v.answer_registered == False:
                 answer_id = None
-            else: answer_id = v["answer_id"]
-            if v["created_by"] == request.user_id:
+            else: answer_id = v.answer_id
+
+            try:
+                find_user = User.objects.get(username=request.GET.get("username"))
+            except User.DoesNotExist:
+                continue
+            if v.created_by == find_user:
                 question_list.append(
                     {
-                        "question_id" : v["id"],
-                        "class_id" : v["contest_id"], 
-                        "problem_id" : v["problem_id"],
-                        "title" : v["title"],
+                        "question_id" : v.id,
+                        "class_id" : v.contest_id, 
+                        "problem_id" : v.problem_id,
+                        "title" : v.title,
                         "answer_id" : answer_id
                     }
-                 )
+                )
         return self.success(question_list)
