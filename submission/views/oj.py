@@ -15,6 +15,8 @@ from ..serializers import (CreateSubmissionSerializer, SubmissionModelSerializer
                            ShareSubmissionSerializer)
 from ..serializers import SubmissionSafeModelSerializer, SubmissionListSerializer
 
+import requests
+
 
 class SubmissionAPI(APIView):
     def throttling(self, request):
@@ -205,18 +207,39 @@ class SubmissionExistsAPI(APIView):
 class SubmissionVisualDataResultAPI(APIView):
     def get(self, request):
         ## Get Code
-        submission_id = request.GET.get("submission_id")
-        submission = Submission.objects.get(id=submission_id)
-        code = submission.code
+        # submission_id = request.GET.get("submission_id")
+        submission_id = "6217a3df4b70723ecdf30e13afa94402"
+        print("------------------------------")
+        print(submission_id)
+        print("------------------------------")
 
         ##Get input Case
-        problem_id = request.GET.get("problem_id")
+        # problem_id = request.GET.get("problem_id")
+        problem_id = "1"
         problem = Problem.objects.get(id=problem_id)
         inputDescription = problem.input_description
 
+        ##Get user id
+        # userId = request.GET.get("user_id")
+        userId = 1
+
+        submission = Submission.objects.get(id=submission_id)
+        code = submission.code
+
         code.replace('+', '%2B')
 
+        print(submission_id)
+        print(code)
+        print(inputDescription)
+
         ## 추후에 윤석이랑 연결되면 URL 넣어서 사용 예정
-        response = requests.get("넣을 URL", data = {"code" : code, "input_description" : inputDescription, "submission_id" : submission_id})
+        # response = requests.get("http://host.docker.internal:8090", data = {"userId" : 1, "submissionId" : submission_id, "sourceCode" : code, "inputData": inputDescription})
+        # response = requests.get("http://localhost:8090", params={"userId" : 1, "submissionId" : submission_id, "sourceCode" : code, "inputData": inputDescription})
+        response = requests.get("http://localhost:8090", params={"userId" : 1, "submissionId" : submission_id, "sourceCode" : code, "inputData": 1})
+        # response2 = requests.get("127.0.0.1:8888", data = {"userId" : 1, "submissionId" : submission_id, "sourceCode" : code, "inputData": inputDescription})
+        print("------------------------------!!!!!!!!!!")
+        print(response.text)
+        print("------------------------------!!!!!!!!!!")
+        return self.success(response.text)
 
         return self.success(response)

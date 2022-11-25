@@ -18,6 +18,7 @@ class Question(models.Model):
     contest_id = models.IntegerField()
     content = RichTextField()
     create_time = models.DateTimeField(auto_now_add=True)
-    submission_id = models.IntegerField()
+    submission_id = models.TextField()
     answer_registered = models.BooleanField(default=True)
     answer_id = models.IntegerField(null=True)
+    
