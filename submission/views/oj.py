@@ -15,6 +15,8 @@ from ..serializers import (CreateSubmissionSerializer, SubmissionModelSerializer
                            ShareSubmissionSerializer)
 from ..serializers import SubmissionSafeModelSerializer, SubmissionListSerializer
 
+import requests
+
 
 class SubmissionAPI(APIView):
     def throttling(self, request):
@@ -206,17 +208,36 @@ class SubmissionVisualDataResultAPI(APIView):
     def get(self, request):
         ## Get Code
         submission_id = request.GET.get("submission_id")
-        submission = Submission.objects.get(id=submission_id)
-        code = submission.code
+        # submission_id = "6217a3df4b70723ecdf30e13afa94402"
+        print("------------------------------")
+        print(submission_id)
+        print("------------------------------")
 
         ##Get input Case
         problem_id = request.GET.get("problem_id")
+        # problem_id = "1"
         problem = Problem.objects.get(id=problem_id)
         inputDescription = problem.input_description
 
+        ##Get user id
+        userId = request.GET.get("user_id")
+        # userId = 1
+
+        submission = Submission.objects.get(id=submission_id)
+        code = submission.code
+
         code.replace('+', '%2B')
 
-        ## 추후에 윤석이랑 연결되면 URL 넣어서 사용 예정
-        response = requests.get("넣을 URL", data = {"code" : code, "input_description" : inputDescription, "submission_id" : submission_id})
+        print(submission_id)
+        print(code)
+        print(inputDescription)
 
-        return self.success(response)
+        ## 도커로 올린 경우
+        # response = requests.get("http://host.docker.internal:8090", data = {"userId" : userId, "submissionId" : submission_id, "sourceCode" : code, "inputData": inputDescription})
+        
+        ## 로컬로 올린 경우
+        response = requests.get("http://localhost:8090", params={"userId" : userId, "submissionId" : submission_id, "sourceCode" : code, "inputData": inputDescription})
+        print("------------------------------!!!!!!!!!!")
+        print(response.text)
+        print("------------------------------!!!!!!!!!!")
+        return self.success(response.text)

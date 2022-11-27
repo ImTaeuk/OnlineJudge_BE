@@ -11,9 +11,11 @@ from account.models import User
 
 from utils.models import RichTextField
 
+from utils.shortcuts import rand_str
+
 class Answer(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     content = RichTextField(null=True)
     create_time = models.DateTimeField(auto_now_add=True)
-    submission_id = models.IntegerField(null=False)
+    submission_id = models.TextField()
     question_id = models.IntegerField(null=True)
