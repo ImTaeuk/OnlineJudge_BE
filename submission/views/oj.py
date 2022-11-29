@@ -17,6 +17,7 @@ from ..serializers import SubmissionSafeModelSerializer, SubmissionListSerialize
 
 import requests
 
+import json
 
 class SubmissionAPI(APIView):
     def throttling(self, request):
@@ -232,12 +233,33 @@ class SubmissionVisualDataResultAPI(APIView):
         print(code)
         print(inputDescription)
 
+        ###
+        # 
+        # 
+        #
+        #
+        ###
+
+
         ## 도커로 올린 경우
-        # response = requests.get("http://host.docker.internal:8090", data = {"userId" : userId, "submissionId" : submission_id, "sourceCode" : code, "inputData": inputDescription})
+        ### dataType == 1 이면 트리, 아니면 다른 데이터 타입
+        dataType = request.GET.get("dataType")
+        print(dataType)
+
+        print(dataType)
+
+        # response = requests.get("http://host.docker.internal:8090", params={"userId" : userId, "submissionId" : submission_id, "sourceCode" : code, "inputData": inputDescription, "dataType" : dataType})
         
         ## 로컬로 올린 경우
-        response = requests.get("http://localhost:8090", params={"userId" : userId, "submissionId" : submission_id, "sourceCode" : code, "inputData": inputDescription})
+        response = requests.get("http://localhost:8090", params={"userId" : userId, "submissionId" : submission_id, "sourceCode" : code, "inputData": inputDescription, "dataType" : dataType})
         print("------------------------------!!!!!!!!!!")
         print(response.text)
         print("------------------------------!!!!!!!!!!")
+        print("------------------------------??????????")
+        print(inputDescription)
+        print("------------------------------??????????")
+        output = []
+        output.append(json.loads(response.text))
+        json.dumps(output)
+        print(output)
         return self.success(response.text)
