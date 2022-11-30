@@ -31,7 +31,7 @@ class QuestionAPI(APIView):
         except Question.DoesNotExist:
             return self.error("Invalid Question ID")
 
-        result = {"id" : question.id, "class_id" : question.contest_id, "problem_id" : question.problem_id, "submission_id" : question.submission_id, "answer_id" : question.answer_id, "title" : question.title, "content" : question.content}
+        result = {"id" : question.id, "class_id" : question.contest_id, "problem_id" : question.problem_id, "submission_id" : question.submission_id, "answer_id" : question.answer_id, "title" : question.title, "content" : question.content[3:len(question.content)-4]}
         
         return self.success(result)
 

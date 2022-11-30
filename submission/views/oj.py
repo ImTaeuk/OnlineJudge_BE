@@ -17,7 +17,7 @@ from ..serializers import SubmissionSafeModelSerializer, SubmissionListSerialize
 
 import requests
 
-import json
+import re
 
 class SubmissionAPI(APIView):
     def throttling(self, request):
@@ -216,22 +216,23 @@ class SubmissionVisualDataResultAPI(APIView):
 
         ##Get input Case
         problem_id = request.GET.get("problem_id")
+        print(problem_id)
         # problem_id = "1"
+
+        
         problem = Problem.objects.get(id=problem_id)
-        inputDescription = problem.input_description
 
         ##Get user id
         userId = request.GET.get("user_id")
         # userId = 1
 
         submission = Submission.objects.get(id=submission_id)
+
+        inputDescription = problem.input_description
+
         code = submission.code
 
         code.replace('+', '%2B')
-
-        print(submission_id)
-        print(code)
-        print(inputDescription)
 
         ###
         # 
@@ -244,10 +245,17 @@ class SubmissionVisualDataResultAPI(APIView):
         ## 도커로 올린 경우
         ### dataType == 1 이면 트리, 아니면 다른 데이터 타입
         dataType = request.GET.get("dataType")
+        print("-------------------------------------")
+        to_clean = re.compile('<.*?>')
+        cleanText = re.sub(to_clean, '', inputDescription)
+        inputDescription = cleanText
+        print(inputDescription)
+        print("-------------------------------------")
 
-        response = requests.get("http://host.docker.internal:8090", params={"userId" : userId, "submissionId" : submission_id, "sourceCode" : code, "inputData": inputDescription[3:len(inputDescription)-4], "dataType" : dataType})
+        print("before")
+        # response = requests.get("http://host.docker.internal:8090", params={"userId" : userId, "submissionId" : submission_id, "sourceCode" : code, "inputData": inputDescription[3:len(inputDescription)-4], "dataType" : dataType})
         
         ## 로컬로 올린 경우
-        # response = requests.get("http://localhost:8090", params={"userId" : userId, "submissionId" : submission_id, "sourceCode" : code, "inputData": inputDescription[3:len(inputDescription)-4], "dataType" : dataType})
-        
+        response = requests.get("http://localhost:8090", params={"userId" : userId, "submissionId" : submission_id, "sourceCode" : code, "inputData": inputDescription, "dataType" : dataType})
+        print("after")
         return self.success(response.text)
